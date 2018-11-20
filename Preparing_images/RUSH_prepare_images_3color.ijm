@@ -9,15 +9,17 @@
 //Concatenate Preinject and Postinject movies
 run("Concatenate...");
 waitForUser("Please select the correct images and press OK. Save the image afterwards, then press OK in this dialog.");
-imagename = getInfo("image.filename");
+imagename_with_tif = getInfo("image.filename");
+string_tif = lengthOf(imagename_with_tif) - 4;
+imagename = substring(imagename_with_tif, 0, string_tif); //Gets the position of the ".tif" ending and deletes it from the string
 
 //Make z-projection, seperate channels
-selectWindow(imagename);
+selectWindow(imagename + ".tif");
 run("Z Project...", "projection=[Max Intensity] all");
 run("Split Channels");
-selectWindow("C2-MAX_" + imagename);
+selectWindow("C2-MAX_" + imagename_with_tif);
 close();
-selectWindow("C3-MAX_" + imagename);
+selectWindow("C3-MAX_" + imagename_with_tif);
 close();
 
 //Prealign using the nuclei channel and save image; Use a loop to try more often if needed
@@ -41,11 +43,11 @@ while(yes != 1){
 	selectWindow("Duplicate");
 	close();
 }
-selectWindow("C1-MAX_" + imagename);
+selectWindow("C1-MAX_" + imagename_with_tif);
 close();
 
 //Align the full movie
-selectWindow(imagename);
+selectWindow(imagename_with_tif);
 run("Duplicate...", "title=NewStack.tif duplicate");
 getDimensions(width, height, channels, slices, frames);
 j = 0;
