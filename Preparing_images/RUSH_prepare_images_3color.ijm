@@ -8,7 +8,7 @@
 
 //Concatenate Preinject and Postinject movies
 run("Concatenate...");
-waitForUser("Please select the correct images and press OK. Save the image afterwards, then press OK in this dialog.");
+waitForUser("Name and save the image, then press OK in this dialog.");
 imagename_with_tif = getInfo("image.filename");
 string_tif = lengthOf(imagename_with_tif) - 4;
 imagename = substring(imagename_with_tif, 0, string_tif); //Gets the position of the ".tif" ending and deletes it from the string
