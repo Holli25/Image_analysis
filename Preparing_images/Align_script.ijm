@@ -11,7 +11,30 @@ Dialog.addChoice("Autocrop movie", newArray("Yes", "No"), "Yes");
 Dialog.show();
 choice = Dialog.getChoice();
 
+//Do the registration for one channel, that is specified by the user
+channel = getNumber("Please specify, which channel you want to test the registration on.", 1);
+yes = 0;
+while(yes != 1){
+	run("Clear Results");
+	run("Duplicate...", "title=Duplicate duplicate channels=&channel");
+	run("Brightness/Contrast...");
+	setTool("rectangle");
+	selectWindow("Duplicate");
+	waitForUser("Please use Template matching to align the movie. Click OK afterwards.");
 
+	//Create Dialog
+	Dialog.create("Hello World");
+	Dialog.addMessage("Are you satisfied with this alignment?");
+	Dialog.addCheckboxGroup(1, 2, newArray("Yes!", "No, try again."), newArray(false, false));
+	Dialog.show()
+	yes = Dialog.getCheckbox();
+	no = Dialog.getCheckbox();
+
+	selectWindow("Duplicate");
+	close();
+}
+
+//Register all channels according to the tested results
 run("Duplicate...", "title=AlignedMovie.tif duplicate");
 getDimensions(width, height, channels, slices, frames);
 j = 0;
@@ -65,3 +88,9 @@ if (choice == "Yes") {
 	makeRectangle(xr, yd, (w - xr + xl), (h - yd + yu)); //make the rectangle as big as possible without having black pixels
 	run("Duplicate...", "title=CroppedAlignedMovie.tif duplicate");
 }
+
+//Clean up the screen
+selectWindow("Results");
+run("Close");
+selectWindow("Log");
+run("Close");
