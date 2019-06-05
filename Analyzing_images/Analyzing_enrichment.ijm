@@ -59,8 +59,9 @@ for (image = 0; image < file_amount; image ++){
 	
 	//Measure and save data
 	getDimensions(width, height, channels, slices, frames);
-	for(channel=0; channel<channels; channel++){
-	roiManager("measure");		
+	for(channel = 1; channel <= channels; channel++){
+		Stack.setChannel(channel);
+		roiManager("measure");		
 	}
 	selectWindow("Results");
 	saveAs("results", savepath + imagename + "_results.csv");
