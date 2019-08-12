@@ -1,5 +1,5 @@
 //Macro for saving all open images in a specified folder
-//Usage: Open ".lif" file. Run the macro and select the folder you want to save the images in. The folder should have a folder called "Images" already.
+//Usage: Open ".lif" file. Run the macro and select the folder you want to save the images in.
 
 images = getList("image.titles");
 selected_folder = getDirectory("Open a file");

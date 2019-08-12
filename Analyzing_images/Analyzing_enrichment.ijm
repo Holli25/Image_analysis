@@ -15,6 +15,9 @@ if (File.isDirectory(folder + "Output/") == 0){
 }
 savepath = folder + "Output/";
 
+//Set up measurements, Label and MGV is needed!
+run("Set Measurements...", "area mean display redirect=None decimal=3");
+
 //Iterate over all images in the folder
 for (image = 0; image < file_amount; image ++){
 	open("Images/" + files[image]);
@@ -59,10 +62,16 @@ for (image = 0; image < file_amount; image ++){
 	
 	//Measure and save data
 	getDimensions(width, height, channels, slices, frames);
-	for(channel = 1; channel <= channels; channel++){
-		Stack.setChannel(channel);
-		roiManager("measure");		
+	if(channels > 1){
+		for(channel = 1; channel <= channels; channel++){
+			Stack.setChannel(channel);
+			roiManager("measure");		
+		}
 	}
+	else{
+		roiManager("measure");
+	}
+
 	selectWindow("Results");
 	saveAs("results", savepath + imagename + "_results.csv");
 	

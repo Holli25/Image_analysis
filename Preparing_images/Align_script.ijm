@@ -20,6 +20,11 @@ while(yes != 1){
 	run("Brightness/Contrast...");
 	setTool("rectangle");
 	selectWindow("Duplicate");
+	getDimensions(prewidth, preheight, prechannels, preslices, preframes);
+	if(preslices > 1){
+		run("Z Project...", "projection=[Max Intensity] all");
+		selectWindow("MAX_Duplicate");
+	}
 	waitForUser("Please use Template matching to align the movie. Click OK afterwards.");
 
 	//Create Dialog
@@ -30,6 +35,10 @@ while(yes != 1){
 	yes = Dialog.getCheckbox();
 	no = Dialog.getCheckbox();
 
+	if(preslices > 1){
+		selectWindow("MAX_Duplicate");
+		close();
+	}
 	selectWindow("Duplicate");
 	close();
 }
